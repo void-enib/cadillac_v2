@@ -18,6 +18,7 @@ public class playerMovement : MonoBehaviour
         {
             //Look on the object if there is a Rigidbody2D and if so then take it as a reference.
             //it is slow so don't do this every frame.
+
             rigidBody = GetComponent<Rigidbody2D>();
         }
     }
