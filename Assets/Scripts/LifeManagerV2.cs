@@ -5,12 +5,20 @@ using UnityEngine;
 public class LifeManagerV2 : MonoBehaviour
 {
 
-    [SerializeField] private int life = 10;
+    [SerializeField] private int lifeMax = 10;
+    [SerializeField] private int life;
+    [SerializeField] private SpriteMask mask;
+
+    private void Start()
+    {
+        life = lifeMax;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Destroy(collision.gameObject);
         life -= 1;
+        float amount = life / lifeMax;
     }
 
     private void Update()
