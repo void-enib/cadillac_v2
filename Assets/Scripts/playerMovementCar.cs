@@ -25,7 +25,7 @@ public class playerMovementCar : MonoBehaviour
     //Time it takes for the car's wheels to stop on their own
     public float stoptime = 2.0f;
     // Rigid body of the player.
-    public Rigidbody2D rigidBody;
+    private Rigidbody2D rigidBody;
     // Vector which stores two values between -1 and 1 corresponding to the X axis and Y axis.
     Vector2 input;
     // Angle of the wheels, between 0 and 120.
