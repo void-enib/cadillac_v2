@@ -25,7 +25,7 @@ public class playerMovementCar : MonoBehaviour
     //Time it takes for the car's wheels to stop on their own
     public float stoptime = 2.0f;
     // Rigid body of the player.
-    public Rigidbody2D rigidBody;
+    private Rigidbody2D rigidBody;
     // Vector which stores two values between -1 and 1 corresponding to the X axis and Y axis.
     Vector2 input;
     // Angle of the wheels, between 0 and 120.
@@ -44,7 +44,7 @@ public class playerMovementCar : MonoBehaviour
 
             rigidBody = GetComponent<Rigidbody2D>();
             //Setting the rigidbody's drag while we're at it
-            rigidBody.drag = 5;
+            //rigidBody.drag = 5;
         }
     }
 
@@ -66,9 +66,7 @@ public class playerMovementCar : MonoBehaviour
     {
         // Vector storing the instantaneous acceleration
         Vector2 m_Mvt;
-        Vector2 m_Sdr;
-        m_Sdr.x = 0.0f; m_Sdr.y = 0.0f;
-
+        
 
         // Increment wheel speed
         if (input.y == 0)
@@ -80,6 +78,7 @@ public class playerMovementCar : MonoBehaviour
         else
             whspeed += input.y * moveAcc * (1 - Mathf.Abs(whspeed) / moveSpeed) * Time.fixedDeltaTime / 4;
 
+
         // Move player
         rigidBody.rotation -= ((whangle-30) * rotaSpeed) * (whspeed / moveSpeed) * Time.fixedDeltaTime;
         m_Mvt.x = (whspeed * -Mathf.Sin(rigidBody.rotation * Mathf.Deg2Rad));
@@ -87,13 +86,20 @@ public class playerMovementCar : MonoBehaviour
         
 
 
-        //defunct slowdown algorithm
-        //m_Sdr.x = (50*rigidBody.velocity.x * ( Mathf.Cos(rigidBody.rotation * Mathf.Deg2Rad))) *Time.fixedDeltaTime;
-        //m_Sdr.y = (50*rigidBody.velocity.y * (-Mathf.Sin(rigidBody.rotation * Mathf.Deg2Rad))) *Time.fixedDeltaTime;
-
-
         rigidBody.velocity += (m_Mvt * Time.fixedDeltaTime);
+        Debug.Log(Mathf.Sqrt(rigidBody.velocity.x * rigidBody.velocity.x + rigidBody.velocity.y * rigidBody.velocity.y));
+    }
 
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Car")
+        {
+            //life -= 1.0f;
+            //Destroy(collision.gameObject);
+            rigidBody.velocity += collision.attachedRigidbody.velocity;
+            Debug.Log(collision.attachedRigidbody.velocity);
+            //Debug.Log(life);
+        }
     }
 }
